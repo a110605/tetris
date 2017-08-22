@@ -1,11 +1,11 @@
 # Tetris Game (俄羅斯方塊)
+<img src="https://github.com/a110605/tetris-game/blob/master/pictures/1.png" height="500" width="350">
 
-![image](https://github.com/a110605/Tetris/blob/master/picture/1.png)
 
 The 2D array (named blackwhite[][]) used to construct the figures. 
-![image](https://github.com/a110605/Tetris/blob/master/picture/2.png)
+<img src="https://github.com/a110605/tetris-game/blob/master/pictures/2.png" height="500" width="350">
 
-![image](https://github.com/a110605/Tetris/blob/master/picture/3.png)
+<img src="https://github.com/a110605/tetris-game/blob/master/pictures/4.png" height="500" width="350">
 
 ## Features
 This work has fulfilled the following features
