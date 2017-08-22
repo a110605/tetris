@@ -109,15 +109,14 @@ public class Controler {
 		b = 0;
 		c = 0;
 
-		while (loose == false) // MAIN GAME LOOP
+		do // MAIN GAME LOOP
 		{
 			nowTime = System.currentTimeMillis();
-
 			while (nexTime - GD.getMiliseconds() < nowTime) {
 				nexTime = System.currentTimeMillis();
 			}
 
-			// determine if user finish full line
+			// determine if figure touch the bottom lines
 			if (!BD.freshFigureMustStopDown()) {
 				BD.freshFigureDown();
 			} else {
@@ -135,63 +134,67 @@ public class Controler {
 				twoFigures[0] = twoFigures[1];
 				twoFigures[1] = fig.giveRandomFigure();
 
-				BD.addFigure(twoFigures[0]);
-				MG.getInfoPanel().getNextFigurePanel().refreshNextFigure(twoFigures[1]);
-				GD.dataRefresh();
+				// determine if user is lose
+				if (BD.verifyLose()) {
+					loose = true; // break while
+					ImageIcon img = new ImageIcon("picture/lose.png");
+					img.setImage(img.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
 
-				// change level
-				if (GD.changedLevel())
-					MG.getInfoPanel().getScorePanel().setLevel(GD.getLevel());
+					int result = JOptionPane.showConfirmDialog(MG,
+							"Your score is: " + GD.getPoints() + "\nYour level is: " + GD.getLevel()
+									+ "\nRestart a new game ?",
+							"You Lose", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, img);
+
+					if (result == JOptionPane.NO_OPTION) {
+						System.exit(0);
+					} else { // restart a new game
+						GD.resetData();
+						BD.renewFigure();
+
+						for (int i = 0; i < 20; i++) {
+							for (int v = 0; v < 10; v++) {
+								MG.unColorGFPanel(i, v);
+							}
+						}
+
+						nowTime = 0;
+						nexTime = 0;
+
+						twoFigures[0] = fig.giveRandomFigure();
+						twoFigures[1] = fig.giveRandomFigure();
+						// ADDING A NEW FIGURE TO THE BOARD
+						BD.addFigure(twoFigures[0]);
+
+						displayBoard();
+
+						// SET TO DISPLAY NEXT FIGURE - twoFigures[0];
+						MG.getInfoPanel().getNextFigurePanel().refreshNextFigure(twoFigures[1]);
+
+						// set score and level to 0 & I
+						MG.getInfoPanel().getScorePanel().refreshScore(GD.getPoints());
+						MG.getInfoPanel().getScorePanel().setLevel(GD.getLevel());
+
+						loose = false;
+					}
+				} else {
+
+					//System.out.println("add new figure");
+					BD.addFigure(twoFigures[0]);
+					MG.getInfoPanel().getNextFigurePanel().refreshNextFigure(twoFigures[1]);
+					GD.dataRefresh();
+
+					// change level
+					if (GD.changedLevel())
+						MG.getInfoPanel().getScorePanel().setLevel(GD.getLevel());
+				}
 			}
 
 			displayBoard();
 
-			// determine if user is lose
-			if (BD.verifyLose()) {
-				loose = true; // break while
-				ImageIcon img = new ImageIcon("picture/lose.png");
-				img.setImage(img.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-
-				int result = JOptionPane.showConfirmDialog(MG,
-						"Your score is: " + GD.getPoints() + "\nYour level is: " + GD.getLevel()
-								+ "\nRestart a new game ?",
-						"You Lose", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, img);
-
-				if (result == JOptionPane.NO_OPTION) {
-					System.exit(0);
-				} else { // restart a new game
-					GD.resetData();
-					BD.renewFigure();
-
-					for (int i = 0; i < 20; i++) {
-						for (int v = 0; v < 10; v++) {
-							MG.unColorGFPanel(i, v);
-						}
-					}
-
-					nowTime = 0;
-					nexTime = 0;
-
-					twoFigures[0] = fig.giveRandomFigure();
-					twoFigures[1] = fig.giveRandomFigure();
-
-					// ADDING A NEW FIGURE TO THE BOARD
-					BD.addFigure(twoFigures[0]);
-					displayBoard();
-
-					// SET TO DISPLAY NEXT FIGURE - twoFigures[0];
-					MG.getInfoPanel().getNextFigurePanel().refreshNextFigure(twoFigures[1]);
-
-					// set score and level to 0 & I
-					MG.getInfoPanel().getScorePanel().refreshScore(GD.getPoints());
-					MG.getInfoPanel().getScorePanel().setLevel(GD.getLevel());
-					
-					loose = false;
-				}
-			}
-			Board.printXRay();
-			System.out.println("\n\n");
-		} // end while
+			// System.out.println("printXRay");
+			// Board.printXRay();
+			//System.out.println("----------------Finish one while-----------------------------------");
+		} while (loose == false);// end while
 	}
 
 	private void displayBoard() {

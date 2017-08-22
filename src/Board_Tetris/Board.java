@@ -43,7 +43,7 @@ public class Board {
 	public void addFigure(Figure fig) {
 		this.freshFigure = fig;
 		figuresOnBoard.add(fig);
-
+		System.out.println("addFigure:figureOnBoard size=" + figuresOnBoard.size());
 		// INFORM THE x-Ray
 		for (int i = 0; i < 4; i++) {
 			blackWhite[fig.getBlockY(i)][fig.getBlockX(i)] = true;
@@ -78,20 +78,21 @@ public class Board {
 	public int nrOfFigures() {
 		return figuresOnBoard.size();
 	}
-	public void renewFigure(){
+
+	public void renewFigure() {
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 10; j++) {
 				blackWhite[i][j] = false;
 			}
-		} 
+		}
 		figuresOnBoard.clear();
-	
+
 	}
+
 	public void freshFigureDown() {
 		// GETTING THE COORDINATES that are now, AND REMOVE THEM FROM X-RAY
 		for (int i = 0; i < 4; i++) {
-			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure
-					.getBlockX(i)] = false;
+			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure.getBlockX(i)] = false;
 		}
 
 		// SETTING THE NEW COORDINATES FOR THE FIGURE
@@ -104,16 +105,14 @@ public class Board {
 		// RE-INFORMING THE X-RAY ABOUT THE NEW POSSITION
 
 		for (int i = 0; i < 4; i++) {
-			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure
-					.getBlockX(i)] = true;
+			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure.getBlockX(i)] = true;
 		}
 	}
 
 	public void freshFigureLeft() {
 		// GETTING THE COORDINATES that are now, AND REMOVE THEM FROM X-RAY
 		for (int i = 0; i < 4; i++) {
-			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure
-					.getBlockX(i)] = false;
+			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure.getBlockX(i)] = false;
 		}
 
 		// SETTING THE NEW COORDINATES FOR THE FIGURE
@@ -126,16 +125,14 @@ public class Board {
 		// RE-INFORMING THE X-RAY ABOUT THE NEW POSSITION
 
 		for (int i = 0; i < 4; i++) {
-			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure
-					.getBlockX(i)] = true;
+			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure.getBlockX(i)] = true;
 		}
 	}
 
 	public void freshFigureRight() {
 		// GETTING THE COORDINATES that are now, AND REMOVE THEM FROM X-RAY
 		for (int i = 0; i < 4; i++) {
-			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure
-					.getBlockX(i)] = false;
+			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure.getBlockX(i)] = false;
 		}
 
 		// SETTING THE NEW COORDINATES FOR THE FIGURE
@@ -148,25 +145,24 @@ public class Board {
 		// RE-INFORMING THE X-RAY ABOUT THE NEW POSSITION
 
 		for (int i = 0; i < 4; i++) {
-			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure
-					.getBlockX(i)] = true;
+			blackWhite[this.freshFigure.getBlockY(i)][this.freshFigure.getBlockX(i)] = true;
 		}
 	}
 
 	public boolean freshFigureMustStopLeft() {
-		return FreshStopSides.mustStopL(true, stopBlocks, uniqueY0, uniqueY1,
-				uniqueY2, uniqueY3, blackWhite, freshFigure, x, y);
+		return FreshStopSides.mustStopL(true, stopBlocks, uniqueY0, uniqueY1, uniqueY2, uniqueY3, blackWhite,
+				freshFigure, x, y);
 	}
 
 	public boolean freshFigureMustStopRight() {
-		return FreshStopSides.mustStopL(false, stopBlocks, uniqueY0, uniqueY1,
-				uniqueY2, uniqueY3, blackWhite, freshFigure, x, y);
+		return FreshStopSides.mustStopL(false, stopBlocks, uniqueY0, uniqueY1, uniqueY2, uniqueY3, blackWhite,
+				freshFigure, x, y);
 
 	}
 
 	public boolean freshFigureMustStopDown() {
-		return FreshStopDown.mustStopDown(stopBlocks, uniqueY0, uniqueY1,
-				uniqueY2, uniqueY3, blackWhite, freshFigure, x, y);
+		return FreshStopDown.mustStopDown(stopBlocks, uniqueY0, uniqueY1, uniqueY2, uniqueY3, blackWhite, freshFigure,
+				x, y);
 	}
 
 	public static boolean[][] getBlackWhite() {
@@ -184,30 +180,34 @@ public class Board {
 	public void putDownBlocksIfNeeded() {
 		CleanLines.putDownBlocksIfNeeded(this);
 	}
-	
-	public void refreshX_Ray(){
+
+	public void refreshX_Ray() {
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 10; j++) {
 				blackWhite[i][j] = false;
 			}
 		}
-		
+
 		for (int i = 0; i < figuresOnBoard.size(); i++) {
 			for (int j = 0; j < figuresOnBoard.get(i).getNrOfBlocks(); j++) {
 				blackWhite[figuresOnBoard.get(i).getBlockY(j)][figuresOnBoard.get(i).getBlockX(j)] = true;
 			}
 		}
 	}
-	
-	public boolean verifyLose(){
+
+	// if any figure have getBlock == 0, should lose
+	public boolean verifyLose() {
+		System.out.println("verifyLose():figuresOnBoard.size()=" + figuresOnBoard.size());
 		for (int i = 0; i < figuresOnBoard.size(); i++) {
-			if(!figuresOnBoard.get(i).isEqualTo(freshFigure)){
-				for (int j = 0; j < figuresOnBoard.get(i).getNrOfBlocks(); j++) {
-					if(figuresOnBoard.get(i).getBlockY(j) == 0){
-						return true;
-					}
+
+			// if(!figuresOnBoard.get(i).isEqualTo(freshFigure)){
+			for (int j = 0; j < figuresOnBoard.get(i).getNrOfBlocks(); j++) {
+				System.out.println("figure " + i + ".getBlockY=" + figuresOnBoard.get(i).getBlockY(j));
+				if (figuresOnBoard.get(i).getBlockY(j) == 0) {
+					return true;
 				}
 			}
+			// }
 		}
 		return false;
 	}
