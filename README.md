@@ -14,7 +14,7 @@ This work has fulfilled the following features
 1. The figures can be moved left/right/down and rotated
 2. The figures can be pulled down to the lowest point with **caps lock button** press
 3. All horizontal lines filled with blocks are removed, giving points to the user
-4. Once the score is high enough, rise the level and the speed up falling rate. 
+4. Once the score is high enough, rise the level and speed up falling rate. 
 5. Restart a game if user lose.
 6. Show next figure on the right info panel.
 
