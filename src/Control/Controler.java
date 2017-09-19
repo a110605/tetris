@@ -192,8 +192,8 @@ public class Controler {
 			displayBoard();
 
 			// System.out.println("printXRay");
-			// Board.printXRay();
-			//System.out.println("----------------Finish one while-----------------------------------");
+			 Board.printXRay();
+			System.out.println("\n");
 		} while (loose == false);// end while
 	}
 

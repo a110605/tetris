@@ -29,7 +29,7 @@ public class RestartPanel extends JPanel {
 		textScore = new JLabel("Tetris Game");
 		picture = new JLabel();
 
-		ImageIcon img = new ImageIcon("picture/icon.png");
+		ImageIcon img = new ImageIcon("pictures/icon.png");
 		img.setImage(img.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT)); 
 		
 		picture.setSize(100,100);
